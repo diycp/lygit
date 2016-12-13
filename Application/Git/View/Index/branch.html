@@ -1,0 +1,33 @@
+<extend name="$_home_public_layout"/>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{$info['abstract']}</p>
+                <div class="mt m-b">
+                    <ul class="nav nav-tabs nav-justified nav-justified-xs">
+                        <li><a href="{:U('Git/Index/detail', array('id' => $info['id']))}"><span class="fa fa-code"></span> 代码</a></li>
+                        <li class="active"><a href="{:U('Git/Index/branch', array('id' => $info['id']))}"><span class="fa fa-random"></span> 分支</a></li>
+                        <li><a href="{:U('Git/Index/member', array('id' => $info['id']))}"><span class="fa fa-users"></span> 成员</a></li>
+                        <li><a href="{:U('Git/Index/setting', array('id' => $info['id']))}"><span class="fa fa-cog"></span> 设置</a></li>
+                    </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        分支
+                    </div>
+                    <div class="panel-body">
+                        <volist name="info['branches']" id="vo">
+                            <div class="media">
+                                <div class="media-body">
+                                    <a href="{:U('Git/Index/detail', array('id' => $info['id'], 'branch' => $vo->getName()))}"><?php echo $vo->getName(); ?></a>
+                                </div>
+                            </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

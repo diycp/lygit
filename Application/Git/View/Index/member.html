@@ -1,0 +1,81 @@
+<extend name="$_home_public_layout"/>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{$info['abstract']}</p>
+                <div class="mt m-b">
+                    <ul class="nav nav-tabs nav-justified nav-justified-xs">
+                        <li><a href="{:U('Git/Index/detail', array('id' => $info['id']))}"><span class="fa fa-code"></span> 代码</a></li>
+                        <li><a href="{:U('Git/Index/branch', array('id' => $info['id']))}"><span class="fa fa-random"></span> 分支</a></li>
+                        <li class="active"><a href="{:U('Git/Index/member', array('id' => $info['id']))}"><span class="fa fa-users"></span> 成员</a></li>
+                        <li><a href="{:U('Git/Index/setting', array('id' => $info['id']))}"><span class="fa fa-cog"></span> 设置</a></li>
+                    </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        项目成员
+                        <?php if(is_login() === $info['uid']): ?>
+                            <a href="{:U('Git/Member/search', array('id' => $info['id']))}" class="label label-primary pull-right">添加成员</a>
+                        <?php endif; ?>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="{:U('User/Index/home', array('uid' => $info['uid']), true, true)}">
+                                    <img class="media-object" style="width: 64px;height: 64px;" src="{$info.user.avatar_url}" alt="{$vo.nickname}">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <p class="media-heading">
+                                    <?php if($info['user']['cert_info']): ?>
+                                        {$info['user']['cert_info']['cert_title']}
+                                        <span class="text-muted small">({$info['user']['nickname']})</span>
+                                    <?php else: ?>
+                                        {$info.user.nickname}
+                                    <?php endif; ?>
+                                    <span class="label label-success">项目所有者</span>
+                                </p>
+                                <div>
+                                    <span class="text-muted small">邮箱：{$info.user.email}</span>
+                                    <div>
+                                        <a target="_blank" href="{:U('User/Talk/index', array('to_uid' => $info['uid']), true, true)}" class="label label-primary">在线聊天</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <volist name="info['member_list']" id="vo">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{:U('User/Index/home', array('uid' => $vo['id']), true, true)}">
+                                        <img class="media-object" style="width: 64px;height: 64px;" src="{$vo.avatar_url}" alt="{$vo.nickname}">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">
+                                        <?php if($vo['cert_info']): ?>
+                                            {$vo['cert_info']['cert_title']}
+                                            <span class="text-muted small">({$vo.nickname})</span>
+                                        <?php else: ?>
+                                            {$vo.nickname}
+                                        <?php endif; ?>
+                                    </p>
+                                    <div>
+                                        <span class="text-muted small">邮箱：{$vo.email}</span>
+                                        <div>
+                                            <a target="_blank" href="{:U('User/Talk/index', array('to_uid' => $vo['id']), true, true)}" class="label label-primary">在线聊天</a>
+                                            <?php if(is_login() === $info['uid']): ?>
+                                                <a href="{:U('Git/Member/add', array('data_id' => $info['id'], 'uid' => $vo['id']))}" class="label label-danger ajax-get confirm">移出项目</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

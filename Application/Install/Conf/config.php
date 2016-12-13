@@ -11,8 +11,8 @@
  */
 return array(
     //产品配置
-    'INSTALL_PRODUCT_NAME'   => 'lyadmin', //产品名称
-    'INSTALL_WEBSITE_DOMAIN' => 'http://lyadmin.lyunweb.com', //官方网址
+    'INSTALL_PRODUCT_NAME'   => 'lygit', //产品名称
+    'INSTALL_WEBSITE_DOMAIN' => 'http://lygit.lyunweb.com', //官方网址
     'INSTALL_COMPANY_NAME'   => '南京科斯克网络科技有限公司', //公司名称
     'ORIGINAL_TABLE_PREFIX'  => 'ly_', //默认表前缀
 

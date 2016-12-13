@@ -1,0 +1,497 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/libs/highlight/styles/github.css">
+    <style>
+        /* 行号 */
+        code.has-numbering {
+            margin-left: 22px;
+        }
+        .pre-numbering {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 22px;
+            padding: 5px 3px 0 0;
+            border-right: 1px solid #C3CCD0;
+            border-radius: 3px 0 0 3px;
+            background-color: #f8f8f8;
+            text-align: right;
+            font-family: Menlo, monospace;
+            font-size: 0.8em;
+            color: #AAA;
+        }
+        .pre-numbering li {
+            line-height: 18px;
+        }
+
+        /* markdown-content */
+        .markdown-content {
+            line-height: 1.7em;
+            font-size: 1.14em
+        }
+        .markdown-content > :first-child {
+            margin-top: 0 !important
+        }
+        .markdown-content > :last-child {
+            margin-bottom: 0 !important
+        }
+        .markdown-content h1 {
+            font-size: 2.25em;
+            line-height: 1.2;
+            border-bottom: 1px solid #eee
+        }
+        .markdown-content h2 {
+            padding-bottom: .3em;
+            font-size: 1.75em;
+            line-height: 1.225;
+            border-bottom: 1px solid #eee
+        }
+        .markdown-content h3 {
+            font-size: 1.5em;
+            line-height: 1.43
+        }
+        .markdown-content h4 {
+            font-size: 1.25em
+        }
+        .markdown-content h5 {
+            font-size: 1em
+        }
+        .markdown-content h6 {
+            font-size: 1em;
+            color: #777
+        }
+        .markdown-content br {
+            display: block;
+            margin: .2em
+        }
+        .markdown-content hr {
+            border: 0;
+            border-bottom: 1px solid #ddd
+        }
+        .markdown-content ul {
+            padding-left: 28px
+        }
+        .markdown-content ol {
+            padding-left: 28px
+        }
+        .markdown-content h1, .markdown-content h2, .markdown-content h3,
+        .markdown-content h4, .markdown-content h5, .markdown-content h6,
+        .markdown-content p, .markdown-content ul, .markdown-content ol,
+        .markdown-content blockquote, .markdown-content pre, .markdown-content table {
+            margin-bottom: 14px
+        }
+        .markdown-content code {
+            display: inline-block;
+            border-radius: 4px;
+            padding: 0 .4em;
+            background-color: #f7f7f7;
+            word-break: break-all;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            white-space: pre;
+            line-height: 1.3
+        }
+        .markdown-content pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f7f7f7;
+            border: 0;
+            border-radius: 3px;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
+        }
+        .markdown-content pre > code {
+            display: inline;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: initial;
+            line-height: inherit;
+            background-color: transparent;
+            border: 0;
+            font-size: 100%
+        }
+        .markdown-content table {
+            border-collapse: collapse;
+            table-layout: fixed
+        }
+        .markdown-content th {
+            text-align: left
+        }
+        .markdown-content th, .markdown-content td {
+            border: 1px solid #888;
+            padding: 3px 12px
+        }
+        .markdown-content tr:hover td {
+            background-color: #f1f1f1
+        }
+        .markdown-content tr:first-child td:first-child {
+            border-top-left-radius: 3px
+        }
+        .markdown-content tr:first-child td:last-child {
+            border-top-right-radius: 3px
+        }
+        .markdown-content tr:last-child td:last-child {
+            border-bottom-left-radius: 3px
+        }
+        .markdown-content tr:last-child td:last-child {
+            border-bottom-right-radius: 3px
+        }
+        .markdown-content img {
+            max-width: 100%
+        }
+        .markdown-content table pre {
+            margin-bottom: 0
+        }
+        .markdown-content table p {
+            margin: 0
+        }
+        .markdown-content blockquote {
+            padding: 5px 5px 5px 15px;
+            color: #777;
+            border-left: 4px solid #ddd
+        }
+        .markdown-content blockquote.info {
+            border-left-color: #5bc0de;
+            color: #5bc0de;
+            background-color: #f4f8fa
+        }
+        .markdown-content blockquote.warning {
+            background-color: #fcf8f2;
+            border-color: #f0ad4e;
+            color: #f0ad4e
+        }
+        .markdown-content blockquote.danger {
+            color: #d9534f;
+            background-color: #fdf7f7;
+            border-color: #d9534f
+        }
+        .markdown-content blockquote.success {
+            background-color: #f3f8f3;
+            border-color: #50af51;
+            color: #50af51
+        }
+        .markdown-content blockquote > :last-child {
+            margin-bottom: 0
+        }
+        .markdown-content .markdown-toc-list ul:only-child {
+            padding-left: 0;
+            margin-bottom: 0
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{$info['abstract']}</p>
+                <div class="mt m-b">
+                    <ul class="nav nav-tabs nav-justified nav-justified-xs">
+                        <li class="active"><a href="{:U('Git/Index/detail', array('id' => $info['id']))}"><span class="fa fa-code"></span> 代码</a></li>
+                        <li><a href="{:U('Git/Index/branch', array('id' => $info['id']))}"><span class="fa fa-random"></span> 分支</a></li>
+                        <li><a href="{:U('Git/Index/member', array('id' => $info['id']))}"><span class="fa fa-users"></span> 成员</a></li>
+                        <li><a href="{:U('Git/Index/setting', array('id' => $info['id']))}"><span class="fa fa-cog"></span> 设置</a></li>
+                    </ul>
+                </div>
+                <div class="m-b row">
+                    <div class="col-xs-12 col-sm-6">
+                        <!-- 提交历史 -->
+                        <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'history' => 'true'))}" class="btn btn-primary m-b-sm">
+                            <span class="fa fa-history"></span>
+                            提交历史 {$info['count_commits']}
+                        </a>
+
+                        <!-- 分支 -->
+                        <div class="btn-group m-b-sm">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-random"></span>
+                                分支 <?php if (!$_GET['commit'] && !$_GET['tag']) {echo $info['branch']->getName();} ?>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <volist name="info['branches']" id="vo">
+                                    <li>
+                                        <a href="{:U('', array('id' => $info['id'], 'branch' => $vo->getName(), 'history' => $_GET['history']))}">
+                                            <?php echo $vo->getName(); ?>
+                                            <?php if(!$_GET['commit'] && !$_GET['tag'] && $vo->getName() === $info['branch']->getName()): ?>
+                                                <i class="fa fa-check text-success"></i>
+                                            <?php endif; ?>
+                                        </a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </div>
+
+                        <!-- 分支 -->
+                        <div class="btn-group m-b-sm">
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-tag"></span>
+                                标签 <?php if ($_GET['tag']) {echo $_GET['tag'];} ?>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <volist name="info['tags']" id="vo">
+                                    <li>
+                                        <a href="{:U('', array('id' => $info['id'], 'tag' => $vo->getName()))}">
+                                            <?php echo $vo->getName(); ?>
+                                            <?php if($_GET['tag'] === $vo->getName()): ?>
+                                                <i class="fa fa-check text-success"></i>
+                                            <?php endif; ?>
+                                        </a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </div>
+
+                        <!-- 下载 -->
+                        <a class="btn btn-info m-b-sm" href="{:U('Git/Index/download', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'commit' => $_GET['commit'], 'tag' => $_GET['tag']))}">
+                            <i class="fa fa-cloud-download"></i>
+                            打包下载
+                        </a>
+                    </div>
+
+                    <!-- 仓库地址 -->
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="input-group m-b-sm">
+                            <!-- 子域名部署支持 -->
+                            <?php if(C('APP_SUB_DOMAIN_DEPLOY') && in_array(MODULE_NAME, C('APP_SUB_DOMAIN_RULES'))): ?>
+                                <input type="text" class="form-control" value="{:C('HOME_PAGE')}/{$info['user']['username']}/{$info['name']}.git">
+                            <?php else: ?>
+                                <input type="text" class="form-control" value="{:C('HOME_PAGE')}/{$info['user']['username']}/{$info['name']}.git">
+                            <?php endif; ?>
+                            <span class="input-group-addon">仓库地址</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info m-b">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="m-r col-xs-12 col-sm-2">
+                                <span class="fa fa-random"></span>
+                                <?php
+                                    if ($_GET['commit']) {
+                                        echo '当前提交: ' . cut_str($_GET['commit'], 0, 10);
+                                    } elseif($_GET['tag']) {
+                                        echo '当前标签: ' . $_GET['tag'];
+                                    } else {
+                                         echo '当前分支: ' . $info['branch']->getName();
+                                    }
+                                ?>
+                            </div>
+
+                            <!-- 面包屑路径 -->
+                            <?php
+                                if ($_GET['path']) {
+                                    $path = explode('-', $_GET['path']);
+                                }
+                            ?>
+                            <div class=" col-xs-12 col-sm-6">
+                                <span class="fa fa-folder-o"></span> 目录：
+                                <!-- 指定commit目录 -->
+                                <?php if($_GET['commit']): ?>
+                                    <a style="font-weight: 700;" href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit']))}">
+                                        <?php echo $info['name']; ?> /
+                                    </a>
+                                    <volist name="path" id="pt">
+                                        <?php $br_path[$key] = $path[$key]; ?>
+                                        <a href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit'], 'path' => implode('-', $br_path)))}">
+                                            <?php echo $pt; ?>
+                                        </a>/
+                                    </volist>
+                                <!-- 指定tag目录 -->
+                                <?php elseif($_GET['tag']): ?>
+                                    <a style="font-weight: 700;" href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag']))}">
+                                        <?php echo $info['name']; ?> /
+                                    </a>
+                                    <volist name="path" id="pt">
+                                        <?php $br_path[$key] = $path[$key]; ?>
+                                        <a href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag'], 'path' => implode('-', $br_path)))}">
+                                            <?php echo $pt; ?>
+                                        </a>/
+                                    </volist>
+                                <!-- 指定branch目录 -->
+                                <?php else: ?>
+                                    <a style="font-weight: 700;" href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName()))}">
+                                        <?php echo $info['name']; ?> /
+                                    </a>
+                                    <volist name="path" id="pt">
+                                        <?php $br_path[$key] = $path[$key]; ?>
+                                        <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'path' => implode('-', $br_path)))}">
+                                            <?php echo $pt; ?>
+                                        </a>/
+                                    </volist>
+                                <?php endif; ?>
+                            </div>
+                            <div class="pull-right hidden-xs">
+                                最新提交：
+                                <?php echo cut_str($info['branch']->getComment(), 0, 10); ?>
+                                <span><?php echo cut_str($info['branch']->getSha(), 0, 6); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 内容 -->
+                    <?php if($_GET['history']): ?>
+                        <table class="table">
+                            <volist name="info.history" id="vo_h">
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-file-text" style="color: #999;"></span>
+                                        <a href="{:U('', array('id' => $info['id'], 'commit' => $vo_h['sha']))}" class="m-r">
+                                            <?php echo $vo_h['message']; ?>
+                                        </a>
+                                    </td>
+                                    <td class="hidden-xs">
+                                        <a href="{:U('', array('id' => $info['id'], 'commit' => $vo_h['sha']))}" class="m-r badge" style="background: #999;">
+                                            <?php echo cut_str($vo_h['sha'], 0, 8); ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span href="#" class="m-r">
+                                            <?php echo $vo_h['author']->getName(); ?>
+                                            <<?php echo $vo_h['author']->getEmail(); ?>>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span href="#" class="m-r">
+                                            <?php echo $vo_h['datetimeauthor']; ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </volist>
+                        </table>
+                    <?php elseif($info['blob']): ?>
+                        <div id="my-code">
+                            <pre class="pos-r m-a-0 p-a-0 bg-white" style="border: 0;background: #f8f8f8;">
+                                <code style="margin-top: -20px;">{$info['blob']}</code>
+                            </pre>
+                        </div>
+                    <?php else: ?>
+                        <ul class="list-group">
+                            <volist name="info.tree" id="vo_tree">
+                                <li class="list-group-item">
+                                    <?php if($vo_tree['type'] === 'tree'): ?>
+                                        <span class="fa fa-folder" style="color: #999;"></span>
+                                    <?php else: ?>
+                                        <span class="fa fa-file-text" style="color: #999;"></span>
+                                    <?php endif; ?>
+                                    <!-- 文件路径分隔符替换 -->
+                                    <?php
+                                        $vo_tree['path'] = preg_replace('/\//','-', $vo_tree['path']);
+                                    ?>
+                                    <!-- 子目录 -->
+                                    <?php if($vo_tree['path']): ?>
+                                        <!-- 指定commit目录 -->
+                                        <?php if($_GET['commit']): ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit'], 'path' => $vo_tree['path']. '-' .$vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit'], 'path' => $vo_tree['path'], 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <!-- 指定tag目录 -->
+                                        <?php elseif($_GET['tag']): ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag'], 'path' => $vo_tree['path']. '-' .$vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag'], 'path' => $vo_tree['path'], 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <!-- 指定branch目录 -->
+                                        <?php else: ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'path' => $vo_tree['path']. '-' .$vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'path' => $vo_tree['path'], 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    <!-- 根目录 -->
+                                    <?php else: ?>
+                                        <!-- 指定commit目录 -->
+                                        <?php if($_GET['commit']): ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                 <a href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit'], 'path' => $vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'commit' => $_GET['commit'], 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <!-- 指定tag目录 -->
+                                        <?php elseif($_GET['tag']): ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                 <a href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag'], 'path' => $vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                 <a href="{:U('', array('id' => $info['id'], 'tag' => $_GET['tag'], 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <!-- 指定branch目录 -->
+                                        <?php else: ?>
+                                            <?php if($vo_tree['type'] === 'tree'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'path' => $vo_tree['name']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php elseif($vo_tree['type'] === 'blob'): ?>
+                                                <a href="{:U('', array('id' => $info['id'], 'branch' => $info['branch']->getName(), 'blob' => $vo_tree['sha']))}">
+                                                    <?php echo $vo_tree['name']; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </li>
+                            </volist>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+
+                <!-- README.md内容 -->
+                <?php if($info['readme_html'] && !$info['blob']): ?>
+                    <div class="panel panel-default">
+                        <div class="panel-body markdown-content">
+                            {$info['readme_html']}
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__PUBLIC__/libs/highlight/highlight.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            // 代码高亮
+            hljs.initHighlightingOnLoad();
+
+            // 显示行号
+            var is_blob = "{$_GET['blob']}";
+            if (is_blob) {
+                $('#my-code pre code').each(function(){
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering');
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for(i=1;i<=lines;i++){
+                        $numbering.append($('<li/>').text(i));
+                    }
+                });
+            }
+        });
+    </script>
+</block>

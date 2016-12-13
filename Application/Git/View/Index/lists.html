@@ -1,0 +1,131 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        /* 文章列表样式 */
+        .article-list .media {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .article-list .list-cover{
+            width: 180px;
+            height: 100px;
+        }
+        .article-list .list-title{
+            margin-top: 6px;
+        }
+        .article-list .list-abstract{
+            height: 42px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @media (max-width: 768px) {
+            .article-list .list-title{
+                font-size: 14px;
+                margin: 0px;
+            }
+            .article-list .list-cover{
+                width: 90px;
+                height: 66px;
+            }
+            .article-list .list-info {
+                font-size: 10px;
+                margin-top: 3px !important;
+                margin-bottom: 2px !important;
+            }
+            .article-list .list-abstract{
+                height: 36px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3">
+                <div class="panel panel-default tab-content">
+                    <div class="panel-heading">
+                        我的项目
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#repo-public" role="tab" data-toggle="tab">公开</a></li>
+                            <li><a href="#repo-private" role="tab" data-toggle="tab">私有</a></li>
+                            <li><a href="#repo-member" role="tab" data-toggle="tab">参与</a></li>
+                        </ul>
+                    </div>
+                    <ul class="list-group tab-pane active" id="repo-public">
+                        <volist name="my_repo_public" id="vo">
+                            <li class="list-group-item">
+                                <a href="{:U('Git/Index/detail', array('id' => $vo['id']))}">
+                                    <i class="fa fa-bookmark-o"></i>
+                                    {$vo.name}
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <ul class="list-group tab-pane" id="repo-private">
+                        <volist name="my_repo_private" id="vo">
+                            <li class="list-group-item">
+                                <a href="{:U('Git/Index/detail', array('id' => $vo['id']))}">
+                                    <i class="fa fa-lock"></i>
+                                    {$vo.name}
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <ul class="list-group tab-pane" id="repo-member">
+                        <volist name="my_repo_member" id="vo">
+                            <li class="list-group-item">
+                                <a href="{:U('Git/Index/detail', array('id' => $vo['id']))}">
+                                    <i class="fa fa-lock"></i>
+                                    {$vo.name}
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php if($_GET['keyword']): ?>
+                            搜索结果
+                        <?php else: ?>
+                            热门项目
+                        <?php endif; ?>
+                    </div>
+                    <div class="article-list panel-body">
+                        <?php if ($data_list): ?>
+                            <volist name="data_list" id="vo">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="list-title text-overflow margin-top-none">
+                                            <a href="{:U('Git/Index/detail', array('id' => $vo['id']))}">
+                                                <i class="fa fa-bookmark-o"></i>
+                                                {$vo['user']['username']}/{$vo.name}
+                                            </a>
+                                        </h4>
+                                        <ul class="list-info list-unstyled list-inline text-muted small">
+                                            <li><i class="fa fa-calendar"></i> {$vo.create_time|time_format}</li>
+                                            <li><i class="fa fa-eye"></i> {$vo.view_count|default=0}</li>
+                                        </ul>
+                                        <div class="list-abstract text-muted">{$vo.abstract}</div>
+                                    </div>
+                                </div>
+                            </volist>
+                            <notempty name="page">
+                                <ul class="pagination">{$page}</ul>
+                            </notempty>
+                        <?php else: ?>
+                            <p class="text-center text-muted">没有版本库</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+

@@ -201,7 +201,11 @@ function check_func_and_ext()
 function create_tables($db, $prefix = '')
 {
     //读取SQL文件
-    $sql = file_get_contents(MODULE_PATH . 'Data/install.sql');
+    if (is_file('./Data/install.sql')) {
+        $sql = file_get_contents('./Data/install.sql');
+    } else {
+        $sql = file_get_contents(MODULE_PATH . 'Data/install.sql');
+    }
     $sql = str_replace("\r", "\n", $sql);
     $sql = explode(";\n", $sql);
 
@@ -247,7 +251,6 @@ function write_config($config, $auth)
         }
         $conf = str_replace('[AUTH_KEY]', $auth, $conf);
         //写入应用配置文件
-
         if (file_put_contents('./Data/db.php', $conf)) {
             show_msg('配置文件写入成功');
         } else {

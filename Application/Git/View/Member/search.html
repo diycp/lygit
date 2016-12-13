@@ -1,0 +1,62 @@
+<extend name="$_home_public_layout"/>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{$info['abstract']}</p>
+                <div class="mt m-b">
+                    <ul class="nav nav-tabs nav-justified nav-justified-xs">
+                        <li><a href="{:U('Git/Index/detail', array('id' => $info['id']))}"><span class="fa fa-code"></span> 代码</a></li>
+                        <li><a href="{:U('Git/Index/branch', array('id' => $info['id']))}"><span class="fa fa-random"></span> 分支</a></li>
+                        <li><a href="{:U('Git/Index/member', array('id' => $info['id']))}"><span class="fa fa-users"></span> 成员</a></li>
+                        <li><a href="{:U('Git/Index/setting', array('id' => $info['id']))}"><span class="fa fa-cog"></span> 设置</a></li>
+                    </ul>
+                </div>
+                <div class="alert alert-success">友情提醒，在搜索框里搜索用户名、邮箱等来找到目标用户，然后点击加入项目即可！</div>
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                    <!--搜索框-->
+                    <form role="search" action="{:U('Git/Member/search', array('id' => $_GET['id']))}">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="搜索用户" name="keyword" value="{$_GET['keyword']}">
+                                <a type="submit" class="input-group-addon search-btn"><i class='fa fa-search'></i></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="user-list row clearfix">
+                    <volist name="user_list" id="vo">
+                        <div class="col-xs-12 col-sm-4 col-md-3">
+                            <div class="contact-box">
+                                <div class="contact-avatar col-xs-3 text-center">
+                                    <a target="_blank" href="{:U('User/Index/home', array('uid' => $vo['id']), true, true)}">
+                                        <img class="avatar img-circle img-responsive" src="{$vo.avatar|get_cover='avatar'}">
+                                    </a>
+                                    <div class="info font-bold">{$vo.position}</div>
+                                </div>
+                                <div class="contact-body col-xs-9">
+                                    <a class="contact-title" target="_blank" href="{:U('User/Index/home', array('uid' => $vo['id']), true, true)}">
+                                        <h3 class="text-overflow">{$vo.nickname}</h3>
+                                    </a>
+                                    <div class="contact-content">
+                                        <p><i class="fa fa-envelope-o"></i> {$vo.email|default="未绑定"}</p>
+                                        <span>注册：{$vo.create_time|time_format='Y-m-d'}</span><br>
+                                        <?php ?>
+                                            <a style="color: #fff;" href="{:U('Git/Member/add', array('data_id' => $_GET['id'], 'uid' => $vo['id']))}" class="label label-success ajax-get no-refresh">
+                                                <i class="fa fa-plus"></i>
+                                                加入项目
+                                            </a>
+                                        <?php ?>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+                <ul class="pagination"><notempty name="page">{$page}</notempty></ul>
+            </div>
+        </div>
+    </div>
+</block>

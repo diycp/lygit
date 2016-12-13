@@ -1,0 +1,124 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: 0;
+            border-radius: 3px;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
+        }
+        pre > code {
+            display: inline;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: initial;
+            line-height: inherit;
+            background-color: transparent;
+            border: 0;
+            font-size: 100%
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{$info['abstract']}</p>
+                <div class="m-t row text-center">
+                    <div class="fa fa-info-circle fa-5x text-muted"></div>
+                    <h3>当前项目没有代码</h3>
+                    <p>
+                        使用 HTTP 协议地址 Push 代码或者按如下命令新建 Git 仓库
+                    </p>
+
+                    <!-- 仓库地址 -->
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">仓库地址</span>
+                            <!-- 子域名部署支持 -->
+                            <?php if(C('APP_SUB_DOMAIN_DEPLOY') && in_array(MODULE_NAME, C('APP_SUB_DOMAIN_RULES'))): ?>
+                                <input type="text" class="form-control" value="{:C('HOME_PAGE')}/{$info['user']['username']}/{$info['name']}.git">
+                            <?php else: ?>
+                                <input type="text" class="form-control" value="{:C('HOME_PAGE')}/git/{$info['user']['username']}/{$info['name']}.git">
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- 方法 -->
+                    <div class="col-xs-12  col-sm-8 col-sm-offset-2 m-t">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active">
+                                <a href="#new-repo" aria-controls="new-repo" role="tab" data-toggle="tab">命令行创建新项目</a>
+                            </li>
+                            <li >
+                                <a href="#exist-repo" aria-controls="exist-repo" role="tab" data-toggle="tab">已有项目</a>
+                            </li>
+                            <li >
+                                <a href="#remote-repo" aria-controls="exist-repo" role="tab" data-toggle="tab">流行系统</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content text-left">
+                            <div class="tab-pane active" id="new-repo">
+                                <pre>
+                                    <code>
+                                        <div>mkdir test</div>
+                                        <div>cd test</div>
+                                        <div>git init</div>
+                                        <div>echo "# test" >> README.md</div>
+                                        <div>git add README.md</div>
+                                        <div>git commit -m "first commit"</div>
+                                        <!-- 子域名部署支持 -->
+                                        <?php if(C('APP_SUB_DOMAIN_DEPLOY') && in_array(MODULE_NAME, C('APP_SUB_DOMAIN_RULES'))): ?>
+                                            <div>git remote add origin {:C('HOME_PAGE')}/{$info['user']['username']}/{$info['name']}.git</div>
+                                        <?php else: ?>
+                                            <div>git remote add origin {:C('HOME_PAGE')}/git/{$info['user']['username']}/{$info['name']}.git</div>
+                                        <?php endif; ?>
+                                        <div>git push -u origin master</div>
+                                    </code>
+                                </pre>
+                            </div>
+                            <div class="tab-pane" id="exist-repo">
+                                <pre>
+                                    <code>
+                                        <?php if(C('APP_SUB_DOMAIN_DEPLOY') && in_array(MODULE_NAME, C('APP_SUB_DOMAIN_RULES'))): ?>
+                                            <div>git remote add origin {:C('HOME_PAGE')}/{$info['user']['username']}/{$info['name']}.git</div>
+                                        <?php else: ?>
+                                            <div>git remote add origin {:C('HOME_PAGE')}/git/{$info['user']['username']}/{$info['name']}.git</div>
+                                        <?php endif; ?>
+                                        <div>git push -u origin master</div>
+                                    </code>
+                                </pre>
+                            </div>
+                            <div class="tab-pane" id="remote-repo">
+                                <form class="m-t remote-repo-form" method="post" action="{:U('Git/Index/clone_from_remote')}">
+                                    <div class="form-group">
+                                        <select name="remote_code" class="lyui-select">
+                                            <option value="corethink">零云开源版</option>
+                                            <option value="self">自定义公共仓库</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="repo_url" placeholder="自定义仓库时填写">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="id" value="{$info.id}">
+                                        <button type="submit" class="btn btn-primary" target-form="remote-repo-form">克隆此系统</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
