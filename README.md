@@ -1,12 +1,8 @@
-﻿# lyadmin
+﻿# lygit
 
 ## 项目介绍
 
-lyadmin是一套轻量级通用后台，采用Bootstrap3制作，自带权限管理，模块化开发。
-
-## 后台截图
-
-![lyadmin](http://of7audkb0.bkt.clouddn.com/lyadmin.png)
+lygit的目标是打造一个最简单、最快速和最轻松的方式搭建自助Git托管服务。基于零云核心并且使用PHP语言开发使得lygit能够便捷的二次开发，并且支持PHP语言支持的 所有平台，包括 Linux、Mac OS X、Windows 以及 ARM 平台。
 
 ## 目录结构
 ```
